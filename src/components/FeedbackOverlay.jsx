@@ -1,0 +1,56 @@
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Button from './Button.jsx';
+
+export default function FeedbackOverlay({
+  visible,
+  correct,
+  message,
+  explanation,
+  onDismiss,
+  autoAdvanceMs,
+}) {
+  React.useEffect(() => {
+    if (visible && correct && autoAdvanceMs && onDismiss) {
+      const t = setTimeout(onDismiss, autoAdvanceMs);
+      return () => clearTimeout(t);
+    }
+  }, [visible, correct, autoAdvanceMs, onDismiss]);
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          className={`feedback-overlay ${correct ? 'correct' : 'wrong'}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="feedback-content"
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+          >
+            <span className="feedback-emoji" role="img" aria-hidden="true">
+              {correct ? '🎉' : '🤔'}
+            </span>
+            <div className="feedback-message">{message}</div>
+            {explanation && (
+              <div style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.85)', marginTop: 10 }}>
+                {explanation}
+              </div>
+            )}
+            {!correct && onDismiss && (
+              <div style={{ marginTop: 20 }}>
+                <Button variant="primary" size="sm" onClick={onDismiss}>
+                  Try Again
+                </Button>
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

@@ -1,0 +1,171 @@
+/* src/components/phases/SimulatePhase.css */
+.sim-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 12px 36px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1;
+  width: 100%;
+  min-height: 100%;
+}
+
+.sim-card {
+  width: 100%;
+  max-width: 860px;
+  margin: auto 0;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.sim-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(15, 12, 40, 0.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sim-tab {
+  padding: 10px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.82rem, 1.1vw, 0.95rem);
+  border-radius: var(--radius-btn);
+  transition: var(--transition-fast);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sim-tab:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.sim-tab.active {
+  background: #fbb03b;
+  color: #18181b;
+  font-weight: 800;
+  border-color: #fbbf24;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+}
+
+.sim-tab.done:not(.active) {
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.sim-tab:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tab-icon {
+  font-size: 1.1rem;
+}
+
+.sim-station-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(15, 12, 40, 0.55);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 10px;
+}
+
+.sim-progress-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.sim-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+.sim-dot.active {
+  background: #fbb03b;
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(251, 176, 59, 0.7);
+}
+.sim-dot.done {
+  background: #22c55e;
+}
+
+@media (max-width: 640px) {
+  .sim-wrap {
+    padding: 10px 8px max(56px, calc(36px + env(safe-area-inset-bottom, 28px)));
+  }
+  .sim-card {
+    min-height: unset;
+  }
+  .sim-tabs {
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  .tab-name {
+    display: none;
+  }
+  .sim-tab {
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .sim-wrap {
+    padding: 8px 6px max(68px, calc(44px + env(safe-area-inset-bottom, 32px)));
+  }
+  .sim-footer {
+    padding: 10px 12px max(14px, calc(8px + env(safe-area-inset-bottom, 12px)));
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sim-footer .btn-outline,
+  .sim-footer .btn-primary {
+    min-width: 0;
+    flex: 1 1 auto;
+    padding: 11px 16px;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+  .sim-progress-dots {
+    gap: 4px;
+  }
+  .sim-dot {
+    width: 8px;
+    height: 8px;
+  }
+}

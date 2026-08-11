@@ -1,0 +1,111 @@
+/* src/components/gamification/KingdomMap.css */
+.kingdom-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.kingdom-district-card {
+  background: rgba(30, 30, 70, 0.65);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.kingdom-district-card:hover:not(.locked) {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  background: rgba(255, 193, 7, 0.12);
+}
+
+.kingdom-district-card.current {
+  border-color: var(--gold);
+  background: rgba(255, 193, 7, 0.18);
+  box-shadow: 0 0 16px rgba(255, 193, 7, 0.4);
+}
+
+.kingdom-district-card.completed {
+  border-color: rgba(76, 175, 80, 0.45);
+}
+
+.kingdom-district-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.district-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.district-icon {
+  font-size: 1.6rem;
+}
+
+.district-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.district-num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.district-name {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.district-score-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.district-score-fraction {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.district-status {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.district-status.active-status {
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .kingdom-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

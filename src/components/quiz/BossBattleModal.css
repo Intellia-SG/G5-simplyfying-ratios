@@ -1,0 +1,124 @@
+/* src/components/quiz/BossBattleModal.css */
+.boss-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 450;
+  padding: 16px;
+}
+
+.boss-modal-card {
+  max-width: 520px;
+  width: 100%;
+  padding: 26px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  background: rgba(26, 18, 55, 0.94);
+  border: 2px solid rgba(255, 193, 7, 0.4);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.boss-modal-card.battle-mode {
+  max-width: 720px;
+  padding: 18px 20px;
+}
+
+.boss-avatar-pulse {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 193, 7, 0.4) 0%, rgba(244, 81, 30, 0.6) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px rgba(255, 193, 7, 0.5);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.boss-emoji {
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.boss-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.boss-desc {
+  color: var(--text-secondary);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.45;
+}
+
+.boss-lives-preview {
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+}
+
+.boss-reward-preview {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.boss-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.boss-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 8px;
+}
+
+.boss-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.boss-hud-emoji {
+  font-size: 1.4rem;
+}
+
+.boss-hud-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+.boss-hud-lives {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.boss-hud-progress {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

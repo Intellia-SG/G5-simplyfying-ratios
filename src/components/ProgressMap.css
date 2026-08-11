@@ -1,0 +1,172 @@
+/* src/components/ProgressMap.css */
+.progress-bar-nav {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar-pill {
+  background: rgba(20, 20, 45, 0.75);
+  padding: 8px 18px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+.audio-btn {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(20, 20, 45, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.audio-btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: var(--gold);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.audio-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.circle-done {
+  background: #22c55e;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.circle-active {
+  background: #fbb03b;
+  color: #18181b;
+  box-shadow: 0 0 12px rgba(251, 176, 59, 0.6);
+}
+
+.circle-idle {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.step-label {
+  font-family: 'Fredoka', 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  color: #a0a0b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-item.active .step-label {
+  color: #fff;
+  font-weight: 700;
+}
+
+.step-item.completed .step-label {
+  color: #c0c0d8;
+}
+
+.step-divider {
+  color: #4a4a5e;
+  font-weight: 900;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 768px) {
+  .step-label-icon { display: none; }
+  .step-label { font-size: 0.76rem; }
+  .progress-bar-pill { gap: 6px; padding: 6px 12px; }
+  .step-circle { width: 24px; height: 24px; font-size: 0.7rem; }
+  .audio-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+    left: calc(100% + 8px);
+  }
+}
+
+@media (max-width: 540px) {
+  .progress-bar-pill {
+    padding: 4px 8px;
+    gap: 3px;
+  }
+  .step-label {
+    display: none;
+  }
+  .step-divider {
+    font-size: 0.6rem;
+  }
+  .step-circle {
+    width: 26px;
+    height: 26px;
+    font-size: 0.72rem;
+  }
+  .audio-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+    left: calc(100% + 6px);
+  }
+}
+
+@media (max-width: 380px) {
+  .progress-bar-pill {
+    padding: 3px 6px;
+    gap: 2px;
+  }
+  .step-circle {
+    width: 22px;
+    height: 22px;
+    font-size: 0.65rem;
+  }
+  .audio-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+    left: calc(100% + 4px);
+  }
+}
