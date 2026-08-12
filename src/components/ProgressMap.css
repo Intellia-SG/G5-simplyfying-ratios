@@ -1,36 +1,36 @@
 /* src/components/ProgressMap.css */
 .progress-bar-nav {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .progress-bar-pill {
-  background: rgba(20, 20, 45, 0.75);
-  padding: 8px 18px;
+  background: rgba(20, 20, 45, 0.85);
+  padding: 6px 14px;
   border-radius: 40px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .audio-btn {
-  position: absolute;
-  left: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 200;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
   border-radius: 50%;
-  background: rgba(20, 20, 45, 0.75);
+  background: rgba(20, 20, 45, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,24 +47,26 @@
 .audio-btn:hover {
   background: rgba(255, 255, 255, 0.24);
   border-color: var(--gold);
-  transform: translateY(-50%) scale(1.08);
+  transform: scale(1.06);
 }
 
 .audio-btn:active {
-  transform: translateY(-50%) scale(0.96);
+  transform: scale(0.96);
 }
 
 .step-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   user-select: none;
   transition: opacity 0.2s ease;
+  cursor: pointer;
 }
 
 .step-circle {
   width: 28px;
   height: 28px;
+  min-width: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -73,6 +75,7 @@
   font-weight: 800;
   color: #fff;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .circle-done {
@@ -94,7 +97,7 @@
 
 .step-label {
   font-family: 'Fredoka', 'Quicksand', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #a0a0b8;
   display: flex;
   align-items: center;
@@ -113,60 +116,28 @@
 .step-divider {
   color: #4a4a5e;
   font-weight: 900;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
 }
 
 @media (max-width: 768px) {
   .step-label-icon { display: none; }
-  .step-label { font-size: 0.76rem; }
-  .progress-bar-pill { gap: 6px; padding: 6px 12px; }
-  .step-circle { width: 24px; height: 24px; font-size: 0.7rem; }
+  .step-label { display: none; }
+  .progress-bar-nav { gap: 6px; }
+  .progress-bar-pill { gap: 4px; padding: 4px 8px; }
+  .step-circle { width: 25px; height: 25px; min-width: 25px; font-size: 0.72rem; }
+  .step-divider { font-size: 0.58rem; }
   .audio-btn {
-    width: 38px;
-    height: 38px;
-    font-size: 1rem;
-    left: calc(100% + 8px);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 0.9rem;
   }
 }
 
-@media (max-width: 540px) {
-  .progress-bar-pill {
-    padding: 4px 8px;
-    gap: 3px;
-  }
-  .step-label {
-    display: none;
-  }
-  .step-divider {
-    font-size: 0.6rem;
-  }
-  .step-circle {
-    width: 26px;
-    height: 26px;
-    font-size: 0.72rem;
-  }
-  .audio-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 0.95rem;
-    left: calc(100% + 6px);
-  }
-}
-
-@media (max-width: 380px) {
-  .progress-bar-pill {
-    padding: 3px 6px;
-    gap: 2px;
-  }
-  .step-circle {
-    width: 22px;
-    height: 22px;
-    font-size: 0.65rem;
-  }
-  .audio-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 0.85rem;
-    left: calc(100% + 4px);
-  }
+@media (max-width: 480px) {
+  .progress-bar-nav { gap: 4px; }
+  .progress-bar-pill { padding: 3px 6px; gap: 3px; }
+  .step-circle { width: 23px; height: 23px; min-width: 23px; font-size: 0.68rem; }
+  .step-divider { font-size: 0.52rem; }
+  .audio-btn { width: 28px; height: 28px; min-width: 28px; font-size: 0.82rem; }
 }

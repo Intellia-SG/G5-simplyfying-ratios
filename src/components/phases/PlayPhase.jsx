@@ -221,46 +221,41 @@ export default function PlayPhase({ state, dispatch }) {
 
   return (
     <div className="play-wrap">
-      {/* District Topic Badge floating above card */}
-      <div className="play-topic-badge">
-        <span><span className="topic-icon">{district.icon}</span> District {distIdx + 1}: {district.name}</span>
-        <button
-          className="topic-boss-btn"
-          onClick={() => setShowBoss(true)}
-          title="Challenge District Boss"
-        >
-          👑 Boss Battle
-        </button>
-        <button
-          className="topic-map-btn"
-          onClick={() => setShowMap(true)}
-        >
-          🗺️ Map
-        </button>
-      </div>
+      {/* Sleek Compact Top Bar: Topic Badge + HUD + Progress in one row */}
+      <div className="play-top-bar">
+        <div className="play-topic-compact">
+          <span className="topic-name">
+            <span className="topic-icon">{district.icon}</span> D{distIdx + 1}: {district.name}
+          </span>
+          <button
+            className="topic-mini-btn"
+            onClick={() => setShowBoss(true)}
+            title="Challenge District Boss"
+          >
+            👑 Boss
+          </button>
+          <button
+            className="topic-mini-btn"
+            onClick={() => setShowMap(true)}
+            title="View World Map"
+          >
+            🗺️ Map
+          </button>
+        </div>
 
-      {/* Stats Row (XP & Streak) */}
-      <div className="play-hud-row">
-        <div className="hud-pill">
-          <span className="hud-pill-icon">⭐</span> {state.xp} XP
-        </div>
-        <div className="hud-pill">
-          <span className="hud-pill-icon">🔥</span> {state.streak}x
-        </div>
-      </div>
-
-      {/* Question Progress Tracker */}
-      <div className="play-progress-container">
-        <div className="play-progress-labels">
-          <span>Question {qInDistrict + 1}/10</span>
-          <span>{Math.round(((qInDistrict + 1) / 10) * 100)}%</span>
-        </div>
-        <div className="play-progress-bar-track">
-          <div className="play-progress-bar-fill" style={{ width: `${((qInDistrict + 1) / 10) * 100}%` }} />
+        <div className="play-hud-compact">
+          <span className="hud-pill-mini">⭐ {state.xp}</span>
+          <span className="hud-pill-mini">🔥 {state.streak}x</span>
+          <span className="hud-pill-mini q-num">Q {qInDistrict + 1}/10</span>
         </div>
       </div>
 
-      {/* Question Renderer */}
+      {/* Question Progress Mini Line */}
+      <div className="play-progress-line">
+        <div className="play-progress-fill" style={{ width: `${((qInDistrict + 1) / 10) * 100}%` }} />
+      </div>
+
+      {/* Question Renderer & Bottom Action Controls */}
       {question && (
         <div className="play-question-area">
           <QuestionRenderer
@@ -270,25 +265,10 @@ export default function PlayPhase({ state, dispatch }) {
             showHint={showHint}
             onHint={handleShowHint}
             isLocked={state.showFeedback === 'correct'}
+            onPrev={handlePrevQuestion}
+            onNext={handleNextQuestion}
+            canPrev={qInDistrict > 0}
           />
-
-          <div className="play-question-nav">
-            <button
-              className="btn-outline"
-              onClick={handlePrevQuestion}
-              disabled={qInDistrict === 0}
-              aria-label="Previous question"
-            >
-              ← Previous Question
-            </button>
-            <button
-              className="btn-primary"
-              onClick={handleNextQuestion}
-              aria-label="Next question"
-            >
-              Next Question →
-            </button>
-          </div>
         </div>
       )}
 

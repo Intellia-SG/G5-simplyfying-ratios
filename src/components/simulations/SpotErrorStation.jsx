@@ -69,67 +69,83 @@ export default function SpotErrorStation({ onComplete, audioEnabled }) {
   return (
     <div className="station-wrap">
       <div className="station-header">
-        <h3 className="station-title subheadline">🔍 Station D: Spot the Ratio Error</h3>
+        <h3 className="station-title">🔍 Station D: Spot the Ratio Error</h3>
         <div className="station-target-box">
           <span className="station-target-label">Problem:</span>
-          <span className="station-target-num number-display">{scenario.problem}</span>
+          <span className="station-target-num">{scenario.problem}</span>
         </div>
       </div>
 
-      <div className="spot-error-body">
-        <p className="body-text" style={{ color: 'var(--text-secondary)' }}>
-          A student worked out this problem with a mistake. Tap the <strong>incorrect step</strong>:
-        </p>
-
-        {/* Steps List */}
-        <div className="spot-steps-list">
-          {scenario.steps.map((step, idx) => {
-            const isSelected = selectedStep === idx;
-            return (
-              <div
-                key={idx}
-                className={`spot-step-card ${isSelected && step.isError ? 'selected-error' : ''} ${isSelected && !step.isError ? 'selected-correct-step' : ''}`}
-                onClick={() => handleSelectStep(idx)}
-                role="button"
-                tabIndex={0}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--gold)' }}>
-                    Step {idx + 1}:
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.02rem', color: '#ffffff' }}>
-                    {step.text}
-                  </span>
-                </div>
-                {isSelected && step.isError && <span style={{ fontSize: '1.4rem' }}>🎯</span>}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Error Explanation on Success */}
-        {success && selectedStep !== null && (
-          <div className="station-success anim-bounce-in">
-            <span className="success-icon">💡</span>
-            <p className="body-text" style={{ color: '#fff' }}>
-              <strong>Error Diagnosed:</strong> {scenario.steps[selectedStep].errorReason}
+      <div className="station-grid-2col">
+        {/* Left Column: Steps List & Actions */}
+        <div className="station-col-left">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <p className="station-guide-text" style={{ textAlign: 'left', fontWeight: 700 }}>
+              A student solved this problem with a mistake. Tap the <strong>incorrect step</strong>:
             </p>
-            <p style={{ color: 'var(--green-light)', fontWeight: 800, fontSize: '1.1rem', marginTop: '4px' }}>
-              Correct Solution: {scenario.correctSimplification}
-            </p>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '8px', justifyContent: 'center' }}>
-              <button className="btn-primary" onClick={nextScenario}>Try Another</button>
-              <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
+
+            <div className="spot-steps-list">
+              {scenario.steps.map((step, idx) => {
+                const isSelected = selectedStep === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`spot-step-card ${isSelected && step.isError ? 'selected-error' : ''} ${isSelected && !step.isError ? 'selected-correct-step' : ''}`}
+                    onClick={() => handleSelectStep(idx)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', flex: 1, minWidth: 0 }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--gold)', fontSize: '1rem', flexShrink: 0 }}>
+                        Step {idx + 1}:
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'clamp(0.95rem, 1.15vw, 1.08rem)', color: '#ffffff', wordBreak: 'break-word', whiteSpace: 'normal', lineHeight: 1.35 }}>
+                        {step.text}
+                      </span>
+                    </div>
+                    {isSelected && step.isError && <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>🎯</span>}
+                  </div>
+                );
+              })}
             </div>
           </div>
-        )}
-      </div>
 
-      {!success && (
-        <div className="station-actions">
-          <button className="btn-outline" onClick={nextScenario}>Next Problem</button>
+          <div className="station-actions">
+            <button className="btn-outline" onClick={nextScenario}>Next Problem</button>
+          </div>
         </div>
-      )}
+
+        {/* Right Column: Diagnosis, Solution & Completion State */}
+        <div className="station-col-right">
+          {success && selectedStep !== null ? (
+            <div className="station-success anim-bounce-in">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span className="success-icon">💡</span>
+                <p className="station-success-msg">
+                  <strong>Mistake Found:</strong> {scenario.steps[selectedStep].errorReason}
+                </p>
+              </div>
+              <div style={{ background: 'rgba(34, 197, 94, 0.18)', border: '1.5px solid rgba(34, 197, 94, 0.4)', borderRadius: '12px', padding: '10px 14px', width: '100%' }}>
+                <span style={{ color: '#86efac', fontWeight: 800, fontSize: 'clamp(0.95rem, 1.1vw, 1.05rem)' }}>
+                  Correct Solution: {scenario.correctSimplification}
+                </span>
+              </div>
+              <div className="station-success-actions">
+                <button className="btn-primary" onClick={nextScenario}>Try Another</button>
+                <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
+              </div>
+            </div>
+          ) : (
+            <div className="station-guide-card" style={{ height: '100%' }}>
+              <span style={{ fontSize: '2.2rem', marginBottom: '4px' }}>🧐</span>
+              <span className="station-guide-text">
+                Carefully examine Steps 1, 2, and 3 on the left. Tap the step where the student made an algebra or simplification error.
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
+

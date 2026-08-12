@@ -67,86 +67,100 @@ export default function SimplifierLabStation({ onComplete, audioEnabled }) {
   return (
     <div className="station-wrap">
       <div className="station-header">
-        <h3 className="station-title subheadline">🧪 Station B: GCF Simplifier Lab</h3>
+        <h3 className="station-title">🧪 Station B: GCF Simplifier Lab</h3>
         <div className="station-target-box">
           <span className="station-target-label">Original Ratio:</span>
-          <span className="station-target-num number-display">{problem.origA} : {problem.origB}</span>
+          <span className="station-target-num">{problem.origA} : {problem.origB}</span>
         </div>
       </div>
 
-      <div className="gcf-station-body">
-        <p className="body-text" style={{ color: 'var(--text-secondary)' }}>
-          Select the <strong>Greatest Common Factor (GCF)</strong> to divide both terms:
-        </p>
+      <div className="station-grid-2col">
+        {/* Left Column: GCF Chips Pool & Actions */}
+        <div className="station-col-left">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <p className="station-guide-text" style={{ textAlign: 'left', fontWeight: 700 }}>
+              Select the <strong>Greatest Common Factor (GCF)</strong> to divide both terms:
+            </p>
 
-        {/* GCF Chips Pool */}
-        <div className="gcf-chips-pool">
-          {problem.chips.map(chip => (
-            <button
-              key={chip}
-              className={`gcf-chip ${selectedChip === chip && success ? 'correct' : ''} ${errorChip === chip ? 'wrong' : ''}`}
-              onClick={() => handleSelectChip(chip)}
-              disabled={success}
-            >
-              <span>÷</span> <span>{chip}</span>
-            </button>
-          ))}
+            <div className="gcf-chips-pool">
+              {problem.chips.map(chip => (
+                <button
+                  key={chip}
+                  className={`gcf-chip ${selectedChip === chip && success ? 'correct' : ''} ${errorChip === chip ? 'wrong' : ''}`}
+                  onClick={() => handleSelectChip(chip)}
+                  disabled={success}
+                  aria-label={`Divide by ${chip}`}
+                >
+                  <span style={{ opacity: 0.7 }}>÷</span>
+                  <span>{chip}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="station-actions">
+            <button className="btn-outline" onClick={newProblem}>New Ratio</button>
+          </div>
         </div>
 
-        {/* Live Equation / Division breakdown */}
-        <div className="gcf-equation-box">
-          <span className="gcf-term">{problem.origA}</span>
-          <span className="gcf-op">÷</span>
-          <span className="gcf-term" style={{ color: 'var(--gold)' }}>{selectedChip || '?'}</span>
-          <span className="gcf-op">=</span>
-          <span className="gcf-term" style={{ color: success ? 'var(--green-light)' : '#fff' }}>
-            {success ? problem.simpA : '?'}
-          </span>
+        {/* Right Column: Live Equation, Visual & Success Banner */}
+        <div className="station-col-right">
+          <div className="gcf-equation-box">
+            <span className="gcf-term">{problem.origA}</span>
+            <span className="gcf-op">÷</span>
+            <span className="gcf-term" style={{ color: 'var(--gold)' }}>{selectedChip || '?'}</span>
+            <span className="gcf-op">=</span>
+            <span className="gcf-term" style={{ color: success ? 'var(--green-light)' : '#fff' }}>
+              {success ? problem.simpA : '?'}
+            </span>
 
-          <span className="gcf-op" style={{ margin: '0 8px' }}>|</span>
+            <span className="gcf-op" style={{ margin: '0 4px', opacity: 0.4 }}>|</span>
 
-          <span className="gcf-term">{problem.origB}</span>
-          <span className="gcf-op">÷</span>
-          <span className="gcf-term" style={{ color: 'var(--gold)' }}>{selectedChip || '?'}</span>
-          <span className="gcf-op">=</span>
-          <span className="gcf-term" style={{ color: success ? 'var(--green-light)' : '#fff' }}>
-            {success ? problem.simpB : '?'}
-          </span>
-        </div>
+            <span className="gcf-term">{problem.origB}</span>
+            <span className="gcf-op">÷</span>
+            <span className="gcf-term" style={{ color: 'var(--gold)' }}>{selectedChip || '?'}</span>
+            <span className="gcf-op">=</span>
+            <span className="gcf-term" style={{ color: success ? 'var(--green-light)' : '#fff' }}>
+              {success ? problem.simpB : '?'}
+            </span>
+          </div>
 
-        {/* Visual Bar representation */}
-        {success && (
           <RatioVisual
             type="bar_model"
+            compact={true}
             data={{
-              valA: problem.origA,
-              valB: problem.origB,
+              valA: success ? problem.origA : (selectedChip ? Math.round(problem.origA / selectedChip) : problem.origA),
+              valB: success ? problem.origB : (selectedChip ? Math.round(problem.origB / selectedChip) : problem.origB),
               simpA: problem.simpA,
               simpB: problem.simpB,
               labelA: 'Part A',
               labelB: 'Part B',
             }}
           />
-        )}
-      </div>
 
-      {/* Success Result */}
-      {success ? (
-        <div className="station-success anim-bounce-in">
-          <span className="success-icon">🎉</span>
-          <p className="body-text" style={{ color: '#fff' }}>
-            Dividing {problem.origA} and {problem.origB} by GCF {problem.gcf} yields the simplest ratio <strong>{problem.simpA} : {problem.simpB}</strong>!
-          </p>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button className="btn-primary" onClick={newProblem}>Try Another</button>
-            <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
-          </div>
+          {success ? (
+            <div className="station-success anim-bounce-in">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="success-icon">🎉</span>
+                <p className="station-success-msg">
+                  Dividing by GCF <strong>{problem.gcf}</strong> gives the simplest ratio <strong>{problem.simpA} : {problem.simpB}</strong>!
+                </p>
+              </div>
+              <div className="station-success-actions">
+                <button className="btn-primary" onClick={newProblem}>Try Another</button>
+                <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
+              </div>
+            </div>
+          ) : (
+            <div className="station-guide-card">
+              <span className="station-guide-text">
+                Find the highest number on the left that divides both <strong>{problem.origA}</strong> and <strong>{problem.origB}</strong> with no remainder.
+              </span>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="station-actions">
-          <button className="btn-outline" onClick={newProblem}>New Ratio</button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
+
