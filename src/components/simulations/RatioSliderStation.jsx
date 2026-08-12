@@ -52,84 +52,98 @@ export default function RatioSliderStation({ onComplete, audioEnabled }) {
   return (
     <div className="station-wrap">
       <div className="station-header">
-        <h3 className="station-title subheadline">🎚️ Station C: Live Ratio Slider & Scaler</h3>
+        <h3 className="station-title">🎚️ Station C: Live Ratio Slider & Scaler</h3>
         <div className="station-target-box">
           <span className="station-target-label">Target Batch:</span>
-          <span className="station-target-num number-display">{challenge.targetA} : {challenge.targetB}</span>
+          <span className="station-target-num">{challenge.targetA} : {challenge.targetB}</span>
         </div>
       </div>
 
-      <div className="slider-station-body">
-        <p className="body-text" style={{ color: 'var(--text-secondary)' }}>
-          Base Ratio: <strong style={{ color: 'var(--gold)' }}>{challenge.baseA} : {challenge.baseB}</strong>. Drag the slider to scale the recipe!
-        </p>
+      <div className="station-grid-2col">
+        {/* Left Column: Slider Controls & Actions */}
+        <div className="station-col-left">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <p className="station-guide-text" style={{ textAlign: 'left', fontWeight: 700 }}>
+              Base Ratio: <strong style={{ color: 'var(--gold)' }}>{challenge.baseA} : {challenge.baseB}</strong>. Drag the slider to scale!
+            </p>
 
-        {/* Slider Controls */}
-        <div className="scale-slider-wrap">
-          <span className="scale-factor-display">
-            Scale Multiplier: ×{scale}
-          </span>
-          <input
-            type="range"
-            min="1"
-            max="6"
-            step="1"
-            value={scale}
-            onChange={handleSliderChange}
-            className="scale-range-input"
-            aria-label="Scale Multiplier Slider"
+            <div className="scale-slider-wrap">
+              <span className="scale-factor-display">
+                Scale Multiplier: ×{scale}
+              </span>
+              <input
+                type="range"
+                min="1"
+                max="6"
+                step="1"
+                value={scale}
+                onChange={handleSliderChange}
+                className="scale-range-input"
+                aria-label="Scale Multiplier Slider"
+              />
+              <div className="slider-ticks-row">
+                <span>×1</span>
+                <span>×2</span>
+                <span>×3</span>
+                <span>×4</span>
+                <span>×5</span>
+                <span>×6</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="station-actions">
+            <button className="btn-outline" onClick={newChallenge}>New Challenge</button>
+          </div>
+        </div>
+
+        {/* Right Column: Live Calculations, Visual & Success Banner */}
+        <div className="station-col-right">
+          <div className="running-ratio-bar">
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.02rem, 1.25vw, 1.22rem)', color: '#fff' }}>
+              ({challenge.baseA} × {scale} = <strong style={{ color: '#ff9f43' }}>{currentA}</strong>) &nbsp;|&nbsp; ({challenge.baseB} × {scale} = <strong style={{ color: '#a5b4fc' }}>{currentB}</strong>)
+            </div>
+            <div className="running-ratio-text">
+              Current Ratio = {currentA} : {currentB}
+            </div>
+          </div>
+
+          <RatioVisual
+            type="bar_model"
+            compact={true}
+            data={{
+              valA: currentA,
+              valB: currentB,
+              simpA: challenge.baseA,
+              simpB: challenge.baseB,
+              labelA: 'Part A',
+              labelB: 'Part B',
+            }}
           />
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '400px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            <span>×1</span>
-            <span>×2</span>
-            <span>×3</span>
-            <span>×4</span>
-            <span>×5</span>
-            <span>×6</span>
-          </div>
-        </div>
 
-        {/* Live Calculation Display */}
-        <div className="running-ratio-bar" style={{ textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#fff' }}>
-            ({challenge.baseA} × {scale} = <span style={{ color: '#ff9f43' }}>{currentA}</span>) &nbsp;|&nbsp; ({challenge.baseB} × {scale} = <span style={{ color: '#7c5cbf' }}>{currentB}</span>)
-          </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.35rem', color: 'var(--gold)', marginTop: '4px' }}>
-            Current Ratio = {currentA} : {currentB}
-          </div>
+          {success ? (
+            <div className="station-success anim-bounce-in">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="success-icon">🎉</span>
+                <p className="station-success-msg">
+                  Target reached! Scaling {challenge.baseA} : {challenge.baseB} by ×{challenge.targetScale} makes <strong>{challenge.targetA} : {challenge.targetB}</strong>!
+                </p>
+              </div>
+              <div className="station-success-actions">
+                <button className="btn-primary" onClick={newChallenge}>Try Another</button>
+                <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
+              </div>
+            </div>
+          ) : (
+            <div className="station-guide-card">
+              <span className="station-guide-text">
+                Slide the multiplier until the current ratio reaches <strong>{challenge.targetA} : {challenge.targetB}</strong>.
+              </span>
+            </div>
+          )}
         </div>
-
-        {/* Visual representation */}
-        <RatioVisual
-          type="bar_model"
-          data={{
-            valA: currentA,
-            valB: currentB,
-            simpA: challenge.baseA,
-            simpB: challenge.baseB,
-            labelA: 'Part A',
-            labelB: 'Part B',
-          }}
-        />
       </div>
-
-      {/* Success banner */}
-      {success ? (
-        <div className="station-success anim-bounce-in">
-          <span className="success-icon">🎉</span>
-          <p className="body-text" style={{ color: '#fff' }}>
-            Target reached! Scaling {challenge.baseA} : {challenge.baseB} by ×{challenge.targetScale} makes <strong>{challenge.targetA} : {challenge.targetB}</strong>!
-          </p>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button className="btn-primary" onClick={newChallenge}>Try Another</button>
-            <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
-          </div>
-        </div>
-      ) : (
-        <div className="station-actions">
-          <button className="btn-outline" onClick={newChallenge}>New Challenge</button>
-        </div>
-      )}
     </div>
   );
 }
+

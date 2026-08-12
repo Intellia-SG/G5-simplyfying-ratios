@@ -3,7 +3,17 @@ import React from 'react';
 import './QuestionRenderer.css';
 import RatioVisual from '../shared/RatioVisual.jsx';
 
-export default function QuestionRenderer({ question, onAnswer, hintsShown, showHint, onHint, isLocked }) {
+export default function QuestionRenderer({
+  question,
+  onAnswer,
+  hintsShown,
+  showHint,
+  onHint,
+  isLocked,
+  onPrev,
+  onNext,
+  canPrev
+}) {
   if (!question) return null;
 
   const { category, questionText, options, visual, visualData, hint1, hint2 } = question;
@@ -22,7 +32,7 @@ export default function QuestionRenderer({ question, onAnswer, hintsShown, showH
       {/* Visual aid if available */}
       {visual && visualData && (
         <div className="qr-visual">
-          <RatioVisual type={visual} data={visualData} />
+          <RatioVisual type={visual} data={visualData} compact={true} />
         </div>
       )}
 
@@ -41,26 +51,51 @@ export default function QuestionRenderer({ question, onAnswer, hintsShown, showH
         ))}
       </div>
 
-      {/* Hint area */}
-      <div className="qr-hint-area">
-        {showHint === 1 && hint1 && (
-          <div className="qr-hint anim-slide-up">
-            <span className="hint-icon">💡</span>
-            <span>{hint1}</span>
-          </div>
-        )}
-        {showHint === 2 && hint2 && (
-          <div className="qr-hint anim-slide-up">
-            <span className="hint-icon">🔑</span>
-            <span>{hint2}</span>
-          </div>
-        )}
-        {hintsShown < 2 && (
+      {/* Hint display */}
+      {showHint === 1 && hint1 && (
+        <div className="qr-hint anim-slide-up">
+          <span className="hint-icon">💡</span>
+          <span>{hint1}</span>
+        </div>
+      )}
+      {showHint === 2 && hint2 && (
+        <div className="qr-hint anim-slide-up">
+          <span className="hint-icon">🔑</span>
+          <span>{hint2}</span>
+        </div>
+      )}
+
+      {/* Bottom Action Row: Hint Button + Prev + Next in one sleek bar */}
+      <div className="qr-actions-row">
+        {hintsShown < 2 && onHint ? (
           <button className="hint-btn" onClick={onHint} aria-label="Show hint">
             💡 Hint {hintsShown + 1}
           </button>
-        )}
+        ) : <div />}
+
+        <div className="qr-nav-btns">
+          {onPrev && (
+            <button
+              className="btn-outline qr-nav-btn"
+              onClick={onPrev}
+              disabled={!canPrev}
+              aria-label="Previous question"
+            >
+              ← Prev
+            </button>
+          )}
+          {onNext && (
+            <button
+              className="btn-primary qr-nav-btn"
+              onClick={onNext}
+              aria-label="Next question"
+            >
+              Next →
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 }
+

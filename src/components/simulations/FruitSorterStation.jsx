@@ -71,101 +71,123 @@ export default function FruitSorterStation({ onComplete, audioEnabled }) {
   return (
     <div className="station-wrap">
       <div className="station-header">
-        <h3 className="station-title subheadline">🧺 Station A: Fruit Sorter & Equal Groups</h3>
+        <h3 className="station-title">🧺 Station A: Fruit Sorter & Equal Groups</h3>
         <div className={`station-target-box ${shake ? 'anim-shake' : ''}`}>
           <span className="station-target-label">Target Ratio:</span>
-          <span className="station-target-num number-display">{target.totalA} : {target.totalB}</span>
+          <span className="station-target-num">{target.totalA} : {target.totalB}</span>
         </div>
       </div>
 
-      <div className="fruit-sorter-body">
-        {/* Supply Bins */}
-        <div className="fruit-supply">
-          <div className="fruit-supply-item">
-            <button
-              className="fruit-btn"
-              style={{ background: '#e53935' }}
-              onClick={() => addFruit('a')}
-              disabled={success}
-            >
-              <span className="fruit-icon">🍓</span>
-              <span className="fruit-label">Strawberries</span>
-              <span className="fruit-count">{placed.a} / {target.totalA}</span>
-            </button>
-            <button
-              className="fruit-minus"
-              onClick={() => removeFruit('a')}
-              disabled={placed.a === 0}
-            >
-              −
-            </button>
+      <div className="station-grid-2col">
+        {/* Left Column: Fruit Controls & Check Actions */}
+        <div className="station-col-left">
+          <div className="fruit-supply">
+            <div className="fruit-supply-item">
+              <button
+                className="fruit-btn"
+                style={{ background: 'linear-gradient(135deg, #e53935 0%, #c62828 100%)' }}
+                onClick={() => addFruit('a')}
+                disabled={success}
+                aria-label={`Add Strawberry (${placed.a} of ${target.totalA})`}
+              >
+                <div className="fruit-btn-info">
+                  <span className="fruit-icon">🍓</span>
+                  <span className="fruit-label">Strawberries</span>
+                </div>
+                <span className="fruit-count-pill">{placed.a} / {target.totalA}</span>
+              </button>
+              <button
+                className="fruit-minus"
+                onClick={() => removeFruit('a')}
+                disabled={placed.a === 0}
+                aria-label="Remove Strawberry"
+              >
+                −
+              </button>
+            </div>
+
+            <div className="fruit-supply-item">
+              <button
+                className="fruit-btn"
+                style={{ background: 'linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)' }}
+                onClick={() => addFruit('b')}
+                disabled={success}
+                aria-label={`Add Blueberry (${placed.b} of ${target.totalB})`}
+              >
+                <div className="fruit-btn-info">
+                  <span className="fruit-icon">🫐</span>
+                  <span className="fruit-label">Blueberries</span>
+                </div>
+                <span className="fruit-count-pill">{placed.b} / {target.totalB}</span>
+              </button>
+              <button
+                className="fruit-minus"
+                onClick={() => removeFruit('b')}
+                disabled={placed.b === 0}
+                aria-label="Remove Blueberry"
+              >
+                −
+              </button>
+            </div>
           </div>
 
-          <div className="fruit-supply-item">
-            <button
-              className="fruit-btn"
-              style={{ background: '#1e88e5' }}
-              onClick={() => addFruit('b')}
-              disabled={success}
-            >
-              <span className="fruit-icon">🫐</span>
-              <span className="fruit-label">Blueberries</span>
-              <span className="fruit-count">{placed.b} / {target.totalB}</span>
-            </button>
-            <button
-              className="fruit-minus"
-              onClick={() => removeFruit('b')}
-              disabled={placed.b === 0}
-            >
-              −
-            </button>
+          <div className="station-actions">
+            <button className="btn-outline" onClick={() => setPlaced({ a: 0, b: 0 })}>Reset</button>
+            <button className="btn-primary" onClick={handleCheck} disabled={success}>Check Groups</button>
+            <button className="btn-outline" onClick={newProblem}>New Ratio</button>
           </div>
         </div>
 
-        {/* Visual grouping & calculation */}
-        <div className="fruit-baskets-area">
-          <RatioVisual
-            type="bar_model"
-            data={{
-              valA: placed.a,
-              valB: placed.b,
-              simpA: target.simpA,
-              simpB: target.simpB,
-              labelA: 'Strawberries 🍓',
-              labelB: 'Blueberries 🫐',
-            }}
-          />
+        {/* Right Column: Visualizer, Grouping Bar & Completion State */}
+        <div className="station-col-right">
+          <div className="fruit-baskets-area">
+            <RatioVisual
+              type="bar_model"
+              data={{
+                valA: placed.a,
+                valB: placed.b,
+                simpA: target.simpA,
+                simpB: target.simpB,
+                labelA: 'Strawberries 🍓',
+                labelB: 'Blueberries 🫐',
+              }}
+            />
 
-          <div className="running-ratio-bar">
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Equal Groups Formed:</span>
-            <span className="running-ratio-text">
-              {placed.a > 0 && placed.b > 0
-                ? `${target.scale} baskets of (${target.simpA} 🍓 and ${target.simpB} 🫐) ➔ Simplest Ratio = ${target.simpA} : ${target.simpB}`
-                : 'Add fruits to form equal groups!'}
-            </span>
+            <div className="running-ratio-bar">
+              <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.6px', fontWeight: 800 }}>
+                Equal Groups Formed:
+              </span>
+              <span className="running-ratio-text">
+                {placed.a > 0 && placed.b > 0
+                  ? `${target.scale} baskets of (${target.simpA} 🍓 and ${target.simpB} 🫐) ➔ ${target.simpA} : ${target.simpB}`
+                  : 'Add fruits on the left to form equal groups!'}
+              </span>
+            </div>
           </div>
+
+          {success ? (
+            <div className="station-success anim-bounce-in">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="success-icon">🎉</span>
+                <p className="station-success-msg">
+                  Great job! {target.totalA} : {target.totalB} simplifies to <strong>{target.simpA} : {target.simpB}</strong> (GCF = {target.gcf})!
+                </p>
+              </div>
+              <div className="station-success-actions">
+                <button className="btn-primary" onClick={newProblem}>Try Another</button>
+                <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
+              </div>
+            </div>
+          ) : (
+            <div className="station-guide-card">
+              <span className="station-guide-text">
+                Fill the bins to reach <strong>{target.totalA} 🍓</strong> and <strong>{target.totalB} 🫐</strong>, then click <strong>Check Groups</strong>.
+              </span>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Success banner or Action buttons */}
-      {success ? (
-        <div className="station-success anim-bounce-in">
-          <span className="success-icon">🎉</span>
-          <p className="body-text" style={{ color: '#fff' }}>
-            Great job! {target.totalA} : {target.totalB} simplifies to <strong>{target.simpA} : {target.simpB}</strong> (GCF = {target.gcf})!
-          </p>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button className="btn-primary" onClick={newProblem}>Try Another</button>
-            <button className="btn-green" onClick={onComplete}>Complete Station ✓</button>
-          </div>
-        </div>
-      ) : (
-        <div className="station-actions">
-          <button className="btn-outline" onClick={() => setPlaced({ a: 0, b: 0 })}>Reset</button>
-          <button className="btn-primary" onClick={handleCheck}>Check Groups</button>
-          <button className="btn-outline" onClick={newProblem}>New Ratio</button>
-        </div>
-      )}
     </div>
   );
 }
+
