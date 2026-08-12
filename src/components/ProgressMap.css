@@ -3,18 +3,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   max-width: 100%;
   box-sizing: border-box;
 }
 
 .progress-bar-pill {
-  background: rgba(20, 20, 45, 0.85);
-  padding: 6px 14px;
+  background: rgba(20, 20, 45, 0.78);
+  padding: 8px 18px;
   border-radius: 40px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -24,13 +24,13 @@
 }
 
 .audio-btn {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   border-radius: 50%;
-  background: rgba(20, 20, 45, 0.85);
+  background: rgba(20, 20, 45, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
 .audio-btn:hover {
   background: rgba(255, 255, 255, 0.24);
   border-color: var(--gold);
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .audio-btn:active {
@@ -57,7 +57,7 @@
 .step-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   user-select: none;
   transition: opacity 0.2s ease;
   cursor: pointer;
@@ -97,7 +97,7 @@
 
 .step-label {
   font-family: 'Fredoka', 'Quicksand', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #a0a0b8;
   display: flex;
   align-items: center;
@@ -116,7 +116,7 @@
 .step-divider {
   color: #4a4a5e;
   font-weight: 900;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
 }
 
 @media (max-width: 768px) {
